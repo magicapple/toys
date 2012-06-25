@@ -16,6 +16,22 @@ sliderCore.prototype = {
 
 	init: function(options) {
 
+		this.initParams(options);
+		this.initSliderSize();
+
+	},
+
+	initSliderSize: function() {
+
+		var styles = {"horizontal": "width", "vertical": "height"};
+		var count = this.sliderContainer.find(this.sliderItemSelect).size();
+		this.sliderSize = this.unitSize * count;
+		this.sliderBox.css(styles[this.direction], this.sliderSize + "px");
+
+	},
+
+	initParams: function(options) {
+
 		//设置滑动方向：horizontal vertical 
 		this.direction = options.direction || "horizontal";
 		//可视的滑动单元数量
@@ -29,17 +45,10 @@ sliderCore.prototype = {
 		//声明滑动单元的选择符，以便于通过this.sliderContainer.find(this.sliderItemSelect)来选择所有的滑动单元
 		//这里有个陷阱，由于程序里面会对滑动单元进行dom的移动操作，所以不能在这里直接存储dom或者jquery对象，会造成后续的操作产生错误。
 		this.sliderItemSelect = options.sliderItemSelect;
-		
-		this.initSliderSize();
-
-	},
-
-	initSliderSize: function() {
-
-		var styles = {"horizontal": "width", "vertical": "height"};
-		var count = this.sliderContainer.find(this.sliderItemSelect).size();
-		this.sliderSize = this.unitSize * count;
-		this.sliderBox.css(styles[this.direction], this.sliderSize + "px");
+		//滑动的速度，可以设置毫秒数和("slow", "normal", or "fast")
+		this.animSpeed = options.animSpeed || "slow";
+		//滑动完成后的回调函数
+		this.animCallBack = options.animCallBack || function(){};
 
 	},
 
@@ -63,19 +72,20 @@ sliderCore.prototype = {
 
 	},
 
-	//为了修正ie下面获取
-	fixPosition: function() {
-		
-		var directions = {"horizontal": "left", "vertical": "top"};
-		var sliderBox = this.sliderBox;
-		var direction = directions[this.direction];
-		var position = sliderBox.position()[direction];
+	slide: function(direction, count) {
 
-		return Math.round((position/this.unitSize)) * this.unitSize;
+		if(!this.beforeSlide())
+		{
+			return false;
+		}
+
+		var animatePosition = this.calculatePosition(direction, count);
+
+		this.anim(animatePosition);
 
 	},
 
-	slide: function(direction, count) {
+	calculatePosition: function(direction, count) {
 
 		var directions = {"horizontal": "left", "vertical": "top"};
 		var positionStyle = directions[this.direction];
@@ -85,17 +95,11 @@ sliderCore.prototype = {
 		var viewCount = this.viewCount;
 		var unitSize = this.unitSize;
 		var sliderBox = this.sliderBox;
+		var animSpeed = this.animSpeed;
 		var sliderContainer = this.sliderContainer;
 		var sliderItemSelect = this.sliderItemSelect;
-		
-		if(!this.canAnimate)
-		{
-			// a_animat.push([direction,count]);
-			return;
-		}
-
 		var currentPosition = this.fixPosition();
-		var animatePosition;
+		var animatePosition, moveCount;
 
 		if(direction === "left" || direction === "top") 
 		{
@@ -103,7 +107,7 @@ sliderCore.prototype = {
 			if((sliderSize + currentPosition - unitSize*(viewCount + count)) < 0 )
 			{
 			
-				var moveCount = (unitSize*(viewCount + count) - (sliderSize + currentPosition))/unitSize;
+				moveCount = (unitSize*(viewCount + count) - (sliderSize + currentPosition))/unitSize;
 				sliderContainer.append(sliderContainer.find(sliderItemSelect).slice(0, moveCount));
 				sliderBox.css(positionStyle, (currentPosition + unitSize*moveCount) + "px");
 				animatePosition = currentPosition - unitSize*(count - moveCount);
@@ -122,7 +126,7 @@ sliderCore.prototype = {
 			if((currentPosition + unitSize*count) > 0 ) 
 			{
 			
-				var moveCount = (currentPosition + unitSize*count)/unitSize;
+				moveCount = (currentPosition + unitSize*count)/unitSize;
 				sliderContainer.prepend(sliderContainer.find(sliderItemSelect).slice(0 - moveCount));
 				sliderBox.css(positionStyle, (currentPosition - unitSize*moveCount) + "px");
 				animatePosition = currentPosition + unitSize*(count - moveCount);
@@ -137,25 +141,50 @@ sliderCore.prototype = {
 			
 		}
 
+		return animatePosition;
+	},
+
+	//为了修正ie下面获取滑块位置时出现的误差。
+	fixPosition: function() {
+		
+		var directions = {"horizontal": "left", "vertical": "top"};
+		var sliderBox = this.sliderBox;
+		var direction = directions[this.direction];
+		var position = sliderBox.position()[direction];
+
+		return Math.round((position/this.unitSize)) * this.unitSize;
+
+	},
+
+	anim: function(animatePosition) {
+
 		this.canAnimate = false;
-		var _this = this;
+
 		if(this.direction === "horizontal")
 		{
 
-			sliderBox.animate({left: animatePosition +'px'}, "slow","", function(){
-				_this.canAnimate = true;
-			});
+			this.sliderBox.animate({left: animatePosition +'px'}, this.animSpeed, "", $.proxy(this.afterSlide, this));
 
 		}
 		else
 		{
 
-			sliderBox.animate({top: animatePosition +'px'}, "slow","", function(){
-				_this.canAnimate = true;
-			});
-
+			this.sliderBox.animate({top:  animatePosition +'px'}, this.animSpeed, "", $.proxy(this.afterSlide, this));
 
 		}
+
+	},
+
+	beforeSlide: function() {
+
+		return this.canAnimate;
+
+	},
+
+	afterSlide: function() {
+
+		this.canAnimate = true;
+		this.animCallBack.apply(this);
 
 	}
 
