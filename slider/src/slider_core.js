@@ -108,9 +108,9 @@ sliderCore.prototype = {
 			{
 			
 				moveCount = (unitSize*(viewCount + count) - (sliderSize + currentPosition))/unitSize;
+				animatePosition = currentPosition - unitSize*(count - moveCount);
 				sliderContainer.append(sliderContainer.find(sliderItemSelect).slice(0, moveCount));
 				sliderBox.css(positionStyle, (currentPosition + unitSize*moveCount) + "px");
-				animatePosition = currentPosition - unitSize*(count - moveCount);
 			
 			}
 			else
@@ -127,9 +127,9 @@ sliderCore.prototype = {
 			{
 			
 				moveCount = (currentPosition + unitSize*count)/unitSize;
+				animatePosition = currentPosition + unitSize*(count - moveCount);
 				sliderContainer.prepend(sliderContainer.find(sliderItemSelect).slice(0 - moveCount));
 				sliderBox.css(positionStyle, (currentPosition - unitSize*moveCount) + "px");
-				animatePosition = currentPosition + unitSize*(count - moveCount);
 			
 			}
 			else
