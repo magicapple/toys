@@ -5,14 +5,14 @@
  * 3.滑动格数不会大于滑动单元总数
  * 这是一个做滑动效果的核心模块，主要解决滑动问题，根据其可以扩展出不同形式的滑动效果
  */
-var sliderCore = function(options) {
+var mx_sliderCore = function(options) {
 
 	this.canAnimate = true;
 	this.init(options);
 
 }
 
-sliderCore.prototype = {
+mx_sliderCore.prototype = {
 
 	init: function(options) {
 
@@ -151,8 +151,9 @@ sliderCore.prototype = {
 		var sliderBox = this.sliderBox;
 		var direction = directions[this.direction];
 		var position = sliderBox.position()[direction];
-
-		return Math.round((position/this.unitSize)) * this.unitSize;
+		var fixPosition = Math.round((position/this.unitSize)) * this.unitSize;
+		this.sliderBox.css(direction, fixPosition + "px");
+		return fixPosition;
 
 	},
 
