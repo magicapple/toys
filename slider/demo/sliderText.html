@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>page_blur_focus</title>
+		<link type="text/css" rel="stylesheet" href="../css/base.css" media="screen" />
+		<style type="text/css">
+
+			#slider_text_left    .slider_list { width: 10000px; height: 20px; position: absolute; top: 0px; left: 0px; }
+			#slider_text_top     .slider_list { width: 600px; height: 10000px; position: absolute; top: 0px; left: 0px; }
+			#slider_mul_text_top .slider_list { width: 600px; height: 10000px; position: absolute; top: 0px; left: 0px; }
+			.sample_text_box .slider_out { overflow: hidden; width: 600px; height: 20px; border: 1px solid #000; position: relative; }
+			.sample_text_box .slider_list li { float: left; height: 20px; width: 600px; font-size: 12px; line-height: 20px; }
+			.sample_text_box .slider_list li a { padding-left: 10px; }
+			#slider_mul_text_top .slider_out { height: 80px; }
+
+		</style>
+		<script src="http://code.jquery.com/jquery-1.7.2.min.js" type="text/javascript" ></script>
+		<script src="../src/slider_core.js" type="text/javascript" ></script>
+		<script src="../src/slider_package_base.js" type="text/javascript" ></script>
+		<script src="sliderText.js" type="text/javascript" ></script>
+	</head>
+
+<body style="margin: 10px; ">
+
+<h1>文字滑动实例</h1>
+
+<div class="sample_text_box">
+
+	<h2><label><input type="checkbox" name="" value="sliderLeftText" checked />单条文字 横向 向左</label></h2>
+	<div id="slider_text_left">
+		<div class="slider_out" >
+			<div class="slider_list">
+			<ul>
+				<li><a href="#">1.我是一个粉刷匠</a></li>
+				<li><a href="#">2.粉刷本领强</a></li>
+				<li><a href="#">3.我要把那新房子</a></li>
+				<li><a href="#">4.刷的更漂亮</a></li>
+				<li><a href="#">5.刷了屋顶又刷墙</a></li>
+				<li><a href="#">6.刷子飞舞忙</a></li>
+				<li><a href="#">7.哎呀我的小鼻子</a></li>
+				<li><a href="#">8.变呀变了样</a></li>
+			</ul>
+			</div>
+		</div>
+	</div>
+	<br/><br/>
+
+	<h2><label><input type="checkbox" name="" value="sliderTopText" checked />单条文字 纵向 向上</label></h2>
+	<div id="slider_text_top">
+		<div class="slider_out" >
+			<div class="slider_list">
+			<ul>
+				<li><a href="#">1.我是一个粉刷匠</a></li>
+				<li><a href="#">2.粉刷本领强</a></li>
+				<li><a href="#">3.我要把那新房子</a></li>
+				<li><a href="#">4.刷的更漂亮</a></li>
+				<li><a href="#">5.刷了屋顶又刷墙</a></li>
+				<li><a href="#">6.刷子飞舞忙</a></li>
+				<li><a href="#">7.哎呀我的小鼻子</a></li>
+				<li><a href="#">8.变呀变了样</a></li>
+			</ul>
+			</div>
+		</div>
+	</div>
+	<br/><br/>
+
+	<h2><label><input type="checkbox" name="" value="sliderMulTopText" checked />多条文字 纵向多条 向上</label></h2>	
+	<div id="slider_mul_text_top">
+		<div class="slider_out" >
+			<div class="slider_list">
+			<ul>
+				<li><a href="#">1.我是一个粉刷匠</a></li>
+				<li><a href="#">2.粉刷本领强</a></li>
+				<li><a href="#">3.我要把那新房子</a></li>
+				<li><a href="#">4.刷的更漂亮</a></li>
+				<li><a href="#">5.刷了屋顶又刷墙</a></li>
+				<li><a href="#">6.刷子飞舞忙</a></li>
+				<li><a href="#">7.哎呀我的小鼻子</a></li>
+				<li><a href="#">8.变呀变了样</a></li>
+			</ul>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+</body>
+
+</html>

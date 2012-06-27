@@ -1,10 +1,12 @@
 $(function(){
 
+
 	var animGroup = {
-		sliderLeft : new mx_sliderBase("slider_left"),
-		sliderRight : new mx_sliderBase("slider_right", {animDirection: "right"}),
-		sliderUP : new mx_sliderBase("slider_up", {direction: "vertical", animDirection: "up"}),
-		sliderDown : new mx_sliderBase("slider_down", {direction: "vertical", animDirection: "down"})
+
+		sliderLeftText : new mx_sliderBase("slider_text_left"),
+		sliderTopText : new mx_sliderBase("slider_text_top", {direction: "vertical", animDirection: "top"}),
+		sliderMulTopText : new mx_sliderBase("slider_mul_text_top", {direction: "vertical", animDirection: "top" }, {viewCount: 4})
+		
 	};
 
 	var animHandle = function(elm){

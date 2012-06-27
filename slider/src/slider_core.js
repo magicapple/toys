@@ -88,8 +88,9 @@ mx_sliderCore.prototype = {
 	calculatePosition: function(direction, count) {
 
 		var directions = {"horizontal": "left", "vertical": "top"};
+		var directionGroup = {"horizontal": "left", "vertical": "up"};
 		var positionStyle = directions[this.direction];
-		var direction = direction || directions[this.direction];
+		var direction = direction || directionGroup[this.direction];
 		var count = count || 1;
 		var sliderSize = this.sliderSize;
 		var viewCount = this.viewCount;
@@ -101,7 +102,7 @@ mx_sliderCore.prototype = {
 		var currentPosition = this.fixPosition();
 		var animatePosition, moveCount;
 
-		if(direction === "left" || direction === "top") 
+		if(direction === "left" || direction === "up") 
 		{
 			
 			if((sliderSize + currentPosition - unitSize*(viewCount + count)) < 0 )
