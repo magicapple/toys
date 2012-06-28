@@ -5,6 +5,11 @@
  * 3.滑动格数不会大于滑动单元总数
  * 这是一个做滑动效果的核心模块，主要解决滑动问题，根据其可以扩展出不同形式的滑动效果
  */
+/**
+ * todo 要解决滑动轴 axial（横向，纵向）跟滑动方向（left right up down）的命名问题
+ * todo calculatePosition 方法太大，如何拆解
+ * todo 动态增加滑动item
+ */
 var mx_sliderCore = function(options) {
 
 	this.canAnimate = true;
@@ -24,8 +29,8 @@ mx_sliderCore.prototype = {
 	initSliderSize: function() {
 
 		var styles = {"horizontal": "width", "vertical": "height"};
-		var count = this.sliderContainer.find(this.sliderItemSelect).size();
-		this.sliderSize = this.unitSize * count;
+		this.totalCount = this.sliderContainer.find(this.sliderItemSelect).size();
+		this.sliderSize = this.unitSize * this.totalCount;
 		this.sliderBox.css(styles[this.direction], this.sliderSize + "px");
 
 	},
@@ -100,16 +105,17 @@ mx_sliderCore.prototype = {
 		var sliderContainer = this.sliderContainer;
 		var sliderItemSelect = this.sliderItemSelect;
 		var currentPosition = this.fixPosition();
+		var remainCount = this.calRemainCount(direction);
 		var animatePosition, moveCount;
 
 		if(direction === "left" || direction === "up") 
 		{
 			
-			if((sliderSize + currentPosition - unitSize*(viewCount + count)) < 0 )
+			if((count - remainCount) > 0 )
 			{
 			
-				moveCount = (unitSize*(viewCount + count) - (sliderSize + currentPosition))/unitSize;
-				animatePosition = currentPosition - unitSize*(count - moveCount);
+				moveCount = count - remainCount;
+				animatePosition = currentPosition - unitSize*remainCount;
 				sliderContainer.append(sliderContainer.find(sliderItemSelect).slice(0, moveCount));
 				sliderBox.css(positionStyle, (currentPosition + unitSize*moveCount) + "px");
 			
@@ -117,18 +123,18 @@ mx_sliderCore.prototype = {
 			else
 			{
 			
-				animatePosition = currentPosition -  unitSize*count; 
+				animatePosition = currentPosition - unitSize*count; 
 			
 			}
 
 		}
 		else
 		{
-			if((currentPosition + unitSize*count) > 0 ) 
+			if((count - remainCount) > 0 ) 
 			{
 			
-				moveCount = (currentPosition + unitSize*count)/unitSize;
-				animatePosition = currentPosition + unitSize*(count - moveCount);
+				moveCount = count - remainCount;
+				animatePosition = currentPosition + unitSize*remainCount;
 				sliderContainer.prepend(sliderContainer.find(sliderItemSelect).slice(0 - moveCount));
 				sliderBox.css(positionStyle, (currentPosition - unitSize*moveCount) + "px");
 			
@@ -142,7 +148,64 @@ mx_sliderCore.prototype = {
 			
 		}
 
+
+		// if(direction === "left" || direction === "up") 
+		// {
+			
+		// 	if((sliderSize + currentPosition - unitSize*(viewCount + count)) < 0 )
+		// 	{
+			
+		// 		moveCount = (unitSize*(viewCount + count) - (sliderSize + currentPosition))/unitSize;
+		// 		animatePosition = currentPosition - unitSize*(count - moveCount);
+		// 		sliderContainer.append(sliderContainer.find(sliderItemSelect).slice(0, moveCount));
+		// 		sliderBox.css(positionStyle, (currentPosition + unitSize*moveCount) + "px");
+			
+		// 	}
+		// 	else
+		// 	{
+			
+		// 		animatePosition = currentPosition -  unitSize*count; 
+			
+		// 	}
+
+		// }
+		// else
+		// {
+		// 	if((currentPosition + unitSize*count) > 0 ) 
+		// 	{
+			
+		// 		moveCount = (currentPosition + unitSize*count)/unitSize;
+		// 		animatePosition = currentPosition + unitSize*(count - moveCount);
+		// 		sliderContainer.prepend(sliderContainer.find(sliderItemSelect).slice(0 - moveCount));
+		// 		sliderBox.css(positionStyle, (currentPosition - unitSize*moveCount) + "px");
+			
+		// 	}
+		// 	else
+		// 	{
+			
+		// 		animatePosition = currentPosition + unitSize*count;
+			
+		// 	}
+			
+		// }
+
 		return animatePosition;
+	},
+
+	calRemainCount: function(direction) {
+
+		var currentPosition = this.fixPosition();
+		var overCount = Math.abs(currentPosition/this.unitSize);
+
+		if(direction === "left" || direction === "up")
+		{
+			return this.totalCount - this.viewCount - overCount;
+		}
+		else
+		{
+			return overCount;
+		}
+
 	},
 
 	//为了修正ie下面获取滑块位置时出现的误差。

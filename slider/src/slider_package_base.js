@@ -19,17 +19,19 @@ mx_sliderBase.prototype = {
 
 	initEvent: function() {
 
-		var _this = this; 
-		$("#"+ this.containerId).hover(function() {
+		$("#"+ this.containerId).hover($.proxy(this.disableAutoSlide, this), $.proxy(this.enableAutoSlide, this));
 
-			_this.canAutoSlide = false;
+	},
 
-		}, 
-		function() {
+	disableAutoSlide: function() {
 
-			_this.canAutoSlide = true;
+		this.canAutoSlide = false;
 
-		});
+	},
+
+	enableAutoSlide: function() {
+
+		this.canAutoSlide = true;
 
 	},
 
@@ -98,6 +100,7 @@ mx_sliderBase.prototype = {
 
 		clearInterval(this.animInterval);
 		this.animInterval = null;
+		
 	}
 
 }
