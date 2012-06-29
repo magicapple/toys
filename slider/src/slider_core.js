@@ -8,7 +8,7 @@
 
 /**
  * todo 要解决滑动轴 axial（横向，纵向）跟滑动方向（left right up down）的命名问题 ok
- * todo calculatePosition 方法太大，如何拆解 ok 将操作dom的方法提取了出去，只让该函数纯粹的计算滑动后的位置。
+ * todo calAnimatePosition 方法太大，如何拆解 ok 将操作dom的方法提取了出去，只让该函数纯粹的计算滑动后的位置。
  * todo 动态增加滑动item
  */
 var mx_sliderCore = function(options) {
@@ -85,13 +85,13 @@ mx_sliderCore.prototype = {
 			return false;
 		}
 
-		var animatePosition = this.calculatePosition(direction, count);
+		var animatePosition = this.calAnimatePosition(direction, count);
 
 		this.anim(animatePosition);
 
 	},
 
-	calculatePosition: function(direction, count) {
+	calAnimatePosition: function(direction, count) {
 
 		var direction = direction || ({"horizontal": "left", "vertical": "up"})[this.axial];
 		var count = count || 1;
