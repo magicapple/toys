@@ -7,8 +7,8 @@
  */
 
 /**
- * todo 要解决滑动轴 axial（横向，纵向）跟滑动方向（left right up down）的命名问题
- * todo calculatePosition 方法太大，如何拆解
+ * todo 要解决滑动轴 axial（横向，纵向）跟滑动方向（left right up down）的命名问题 ok
+ * todo calculatePosition 方法太大，如何拆解 ok 将操作dom的方法提取了出去，只让该函数纯粹的计算滑动后的位置。
  * todo 动态增加滑动item
  */
 var mx_sliderCore = function(options) {
@@ -93,30 +93,22 @@ mx_sliderCore.prototype = {
 
 	calculatePosition: function(direction, count) {
 
-		var positionStyle = ({"horizontal": "left", "vertical": "top"})[this.axial];
 		var direction = direction || ({"horizontal": "left", "vertical": "up"})[this.axial];
 		var count = count || 1;
-		var sliderSize = this.sliderSize;
-		var viewCount = this.viewCount;
 		var unitSize = this.unitSize;
-		var sliderBox = this.sliderBox;
-		var animSpeed = this.animSpeed;
-		var sliderContainer = this.sliderContainer;
-		var sliderItemSelect = this.sliderItemSelect;
 		var currentPosition = this.fixPosition();
 		var remainCount = this.calRemainCount(direction);
-		var animatePosition, moveCount;
+		var moveCount = count - remainCount;
+		var animatePosition;
 
 		if(direction === "left" || direction === "up") 
 		{
 			
-			if((count - remainCount) > 0 )
+			if((moveCount) > 0 )
 			{
 			
-				moveCount = count - remainCount;
+				this.moveSliderItemToFoot(moveCount, currentPosition);
 				animatePosition = currentPosition - unitSize*remainCount;
-				sliderContainer.append(sliderContainer.find(sliderItemSelect).slice(0, moveCount));
-				sliderBox.css(positionStyle, (currentPosition + unitSize*moveCount) + "px");
 			
 			}
 			else
@@ -132,10 +124,8 @@ mx_sliderCore.prototype = {
 			if((count - remainCount) > 0 ) 
 			{
 			
-				moveCount = count - remainCount;
+				this.moveSliderItemToHead(moveCount, currentPosition);
 				animatePosition = currentPosition + unitSize*remainCount;
-				sliderContainer.prepend(sliderContainer.find(sliderItemSelect).slice(0 - moveCount));
-				sliderBox.css(positionStyle, (currentPosition - unitSize*moveCount) + "px");
 			
 			}
 			else
@@ -148,6 +138,24 @@ mx_sliderCore.prototype = {
 		}
 
 		return animatePosition;
+	},
+
+	moveSliderItemToHead: function(moveCount, currentPosition) {
+
+		var styles = {"horizontal": "left", "vertical": "top"};
+
+		this.sliderContainer.prepend(this.sliderContainer.find(this.sliderItemSelect).slice(0 - moveCount));
+		this.sliderBox.css(styles[this.axial], (currentPosition - this.unitSize*moveCount) + "px");
+
+	},
+
+	moveSliderItemToFoot: function(moveCount, currentPosition) {
+
+		var styles = {"horizontal": "left", "vertical": "top"};
+
+		this.sliderContainer.append(this.sliderContainer.find(this.sliderItemSelect).slice(0, moveCount));
+		this.sliderBox.css(styles[this.axial], (currentPosition + this.unitSize*moveCount) + "px");
+
 	},
 
 	calRemainCount: function(direction) {
