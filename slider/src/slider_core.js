@@ -5,6 +5,7 @@
  * 3.滑动格数不会大于滑动单元总数
  * 这是一个做滑动效果的核心模块，主要解决滑动问题，根据其可以扩展出不同形式的滑动效果
  */
+
 /**
  * todo 要解决滑动轴 axial（横向，纵向）跟滑动方向（left right up down）的命名问题
  * todo calculatePosition 方法太大，如何拆解
@@ -31,14 +32,14 @@ mx_sliderCore.prototype = {
 		var styles = {"horizontal": "width", "vertical": "height"};
 		this.totalCount = this.sliderContainer.find(this.sliderItemSelect).size();
 		this.sliderSize = this.unitSize * this.totalCount;
-		this.sliderBox.css(styles[this.direction], this.sliderSize + "px");
+		this.sliderBox.css(styles[this.axial], this.sliderSize + "px");
 
 	},
 
 	initParams: function(options) {
 
 		//设置滑动方向：horizontal vertical 
-		this.direction = options.direction || "horizontal";
+		this.axial = options.axial || "horizontal";
 		//可视的滑动单元数量
 		this.viewCount = options.viewCount || 1; 
 		//滑动单元滑动方向的单位长度
@@ -92,10 +93,8 @@ mx_sliderCore.prototype = {
 
 	calculatePosition: function(direction, count) {
 
-		var directions = {"horizontal": "left", "vertical": "top"};
-		var directionGroup = {"horizontal": "left", "vertical": "up"};
-		var positionStyle = directions[this.direction];
-		var direction = direction || directionGroup[this.direction];
+		var positionStyle = ({"horizontal": "left", "vertical": "top"})[this.axial];
+		var direction = direction || ({"horizontal": "left", "vertical": "up"})[this.axial];
 		var count = count || 1;
 		var sliderSize = this.sliderSize;
 		var viewCount = this.viewCount;
@@ -148,47 +147,6 @@ mx_sliderCore.prototype = {
 			
 		}
 
-
-		// if(direction === "left" || direction === "up") 
-		// {
-			
-		// 	if((sliderSize + currentPosition - unitSize*(viewCount + count)) < 0 )
-		// 	{
-			
-		// 		moveCount = (unitSize*(viewCount + count) - (sliderSize + currentPosition))/unitSize;
-		// 		animatePosition = currentPosition - unitSize*(count - moveCount);
-		// 		sliderContainer.append(sliderContainer.find(sliderItemSelect).slice(0, moveCount));
-		// 		sliderBox.css(positionStyle, (currentPosition + unitSize*moveCount) + "px");
-			
-		// 	}
-		// 	else
-		// 	{
-			
-		// 		animatePosition = currentPosition -  unitSize*count; 
-			
-		// 	}
-
-		// }
-		// else
-		// {
-		// 	if((currentPosition + unitSize*count) > 0 ) 
-		// 	{
-			
-		// 		moveCount = (currentPosition + unitSize*count)/unitSize;
-		// 		animatePosition = currentPosition + unitSize*(count - moveCount);
-		// 		sliderContainer.prepend(sliderContainer.find(sliderItemSelect).slice(0 - moveCount));
-		// 		sliderBox.css(positionStyle, (currentPosition - unitSize*moveCount) + "px");
-			
-		// 	}
-		// 	else
-		// 	{
-			
-		// 		animatePosition = currentPosition + unitSize*count;
-			
-		// 	}
-			
-		// }
-
 		return animatePosition;
 	},
 
@@ -211,9 +169,8 @@ mx_sliderCore.prototype = {
 	//为了修正ie下面获取滑块位置时出现的误差。
 	fixPosition: function() {
 		
-		var directions = {"horizontal": "left", "vertical": "top"};
 		var sliderBox = this.sliderBox;
-		var direction = directions[this.direction];
+		var direction = ({"horizontal": "left", "vertical": "top"})[this.axial];
 		var position = sliderBox.position()[direction];
 		var fixPosition = Math.round((position/this.unitSize)) * this.unitSize;
 		this.sliderBox.css(direction, fixPosition + "px");
@@ -225,7 +182,7 @@ mx_sliderCore.prototype = {
 
 		this.canAnimate = false;
 
-		if(this.direction === "horizontal")
+		if(this.axial === "horizontal")
 		{
 
 			this.sliderBox.animate({left: animatePosition +'px'}, this.animSpeed, "", $.proxy(this.afterSlide, this));
