@@ -1,12 +1,10 @@
 $(function(){
 
-
 	var animGroup = {
-
-		sliderLeftText : new mx_sliderBase("slider_text_left"),
-		sliderTopText : new mx_sliderBase("slider_text_top", {axial: "vertical", animDirection: "up"}),
-		sliderMulTopText : new mx_sliderBase("slider_mul_text_top", {axial: "vertical", animDirection: "up" }, {viewCount: 4})
-		
+		sliderLeft : new mx_sliderBase("slider_left"),
+		sliderRight : new mx_sliderBase("slider_right", {animDirection: "right"}),
+		sliderUP : new mx_sliderBase("slider_up", {axial: "vertical", animDirection: "up"}),
+		sliderDown : new mx_sliderBase("slider_down", {axial: "vertical", animDirection: "down"})
 	};
 
 	var animHandle = function(elm){

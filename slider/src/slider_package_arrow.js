@@ -54,7 +54,7 @@ mx_sliderArrow.prototype = {
 
 	initEvent: function() {
 
-		$("#"+ this.containerId).hover($.proxy(this.disableAutoSlide, this), $.proxy(this.enableAutoSlide, this));
+		$("#" + this.containerId).hover($.proxy(this.disableAutoSlide, this), $.proxy(this.enableAutoSlide, this));
 		$("#" + this.containerId + " .arrow_handle").click($.proxy(this.arrowHandleCallBack, this));
 
 	},

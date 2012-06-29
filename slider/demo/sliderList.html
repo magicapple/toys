@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>page_blur_focus</title>
+		<link type="text/css" rel="stylesheet" href="../css/base.css" media="screen" />
+		<style type="text/css">
+
+			.sample_box { text-align: center; }
+			.inline_style { display: inline-block; width: 300px; padding: 0px 10px; }
+
+			#slider_left  .slider_list { width: 10000px; height: 200px; position: absolute; top: 0px; left: 0px; }
+			#slider_right .slider_list { width: 10000px; height: 200px; position: absolute; top: 0px; right: 0px; }
+			#slider_up    .slider_list { width: 300px; height: 10000px; position: absolute; top: 0px; left: 0px; }
+			#slider_down  .slider_list { width: 300px; height: 10000px; position: absolute; bottom: 0px; left: 0px; }
+			.sample_box .slider_out { overflow: hidden; width: 300px; height: 200px; border: 1px solid #000; position: relative; }
+			.sample_box .slider_list li { float: left; height: 200px; width: 300px; }
+			.sample_box .slider_list li .slider_item { height: 198px; width: 298px; border: 1px solid #F00; background: #FCC; text-align: center; line-height: 198px; font-size: 36px; font-weight: bold; }
+
+			.slider_out .turnpage_handle { position: absolute; bottom: 3px; right: 3px; }
+			.slider_out .turnpage_handle span { display: inline-block; height: 14px; width: 15px; font-size: 12px; margin-right: 3px; border: 1px solid #900; background: #FFF; color: #999; cursor: pointer; }
+			.slider_out .turnpage_handle span.current { background: #CCC; color: #900; }
+			.slider_out .turnpage_handle span:hover { background: #FFC; }
+
+		</style>
+		<script src="http://code.jquery.com/jquery-1.7.2.min.js" type="text/javascript" ></script>
+		<script src="../src/slider_core.js" type="text/javascript" ></script>
+		<script src="../src/slider_package_list.js" type="text/javascript" ></script>
+		<script src="sliderList.js" type="text/javascript" ></script>
+	</head>
+
+<body style="margin: 10px; ">
+
+<h1>基础滑动实例</h1>
+
+
+<div class="sample_box">
+
+	<div class="inline_style">
+		<h2><label><input type="checkbox" name="" value="sliderLeft" checked />横向滚动 横向 向左</label></h2>
+		<div id="slider_left">
+			<div class="slider_out" >
+				<div class="slider_list">
+				<ul>
+					<li><div class="slider_item">1</div></li>
+					<li><div class="slider_item">2</div></li>
+					<li><div class="slider_item">3</div></li>
+					<li><div class="slider_item">4</div></li>
+					<li><div class="slider_item">5</div></li>
+					<li><div class="slider_item">6</div></li>
+				</ul>
+				</div>
+				<div class="turnpage_handle"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="inline_style">
+		<h2><label><input type="checkbox" name="" value="sliderRight" checked />横向滚动 横向 向右</label></h2>
+		<div id="slider_right">
+			<div class="slider_out" >
+				<div class="slider_list">
+				<ul>
+					<li><div class="slider_item">6</div></li>
+					<li><div class="slider_item">5</div></li>
+					<li><div class="slider_item">4</div></li>
+					<li><div class="slider_item">3</div></li>
+					<li><div class="slider_item">2</div></li>
+					<li><div class="slider_item">1</div></li>
+				</ul>
+				</div>
+				<div class="turnpage_handle"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="inline_style">
+		<h2><label><input type="checkbox" name="" value="sliderUP" checked />横向滚动 纵向 向上</label></h2>
+		<div id="slider_up">
+			<div class="slider_out" >
+				<div class="slider_list">
+				<ul>
+					<li><div class="slider_item">1</div></li>
+					<li><div class="slider_item">2</div></li>
+					<li><div class="slider_item">3</div></li>
+					<li><div class="slider_item">4</div></li>
+					<li><div class="slider_item">5</div></li>
+					<li><div class="slider_item">6</div></li>
+				</ul>
+				</div>
+				<div class="turnpage_handle"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="inline_style">
+		<h2><label><input type="checkbox" name="" value="sliderDown" checked />横向滚动 纵向 向下</label></h2>
+		<div id="slider_down">
+			<div class="slider_out" >
+				<div class="slider_list">
+				<ul>
+					<li><div class="slider_item">6</div></li>
+					<li><div class="slider_item">5</div></li>
+					<li><div class="slider_item">4</div></li>
+					<li><div class="slider_item">3</div></li>
+					<li><div class="slider_item">2</div></li>
+					<li><div class="slider_item">1</div></li>
+				</ul>
+				</div>
+				<div class="turnpage_handle"></div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+</body>
+
+</html>

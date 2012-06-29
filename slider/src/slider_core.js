@@ -64,6 +64,7 @@ mx_sliderCore.prototype = {
 		{
 			return this.sliderBox.find(sliderContainer);
 		}
+		
 		return sliderContainer;
 
 	},
@@ -74,6 +75,7 @@ mx_sliderCore.prototype = {
 		{
 			return $(sliderBox);
 		}
+
 		return sliderBox;
 
 	},
@@ -103,38 +105,27 @@ mx_sliderCore.prototype = {
 
 		if(direction === "left" || direction === "up") 
 		{
-			
-			if((moveCount) > 0 )
+			if(moveCount > 0)
 			{
-			
 				this.moveSliderItemToFoot(moveCount, currentPosition);
 				animatePosition = currentPosition - unitSize*remainCount;
-			
 			}
 			else
 			{
-			
 				animatePosition = currentPosition - unitSize*count; 
-			
 			}
-
 		}
 		else
 		{
-			if((count - remainCount) > 0 ) 
+			if(moveCount > 0) 
 			{
-			
 				this.moveSliderItemToHead(moveCount, currentPosition);
 				animatePosition = currentPosition + unitSize*remainCount;
-			
 			}
 			else
 			{
-			
 				animatePosition = currentPosition + unitSize*count;
-			
 			}
-			
 		}
 
 		return animatePosition;
@@ -192,15 +183,11 @@ mx_sliderCore.prototype = {
 
 		if(this.axial === "horizontal")
 		{
-
 			this.sliderBox.animate({left: animatePosition +'px'}, this.animSpeed, "", $.proxy(this.afterSlide, this));
-
 		}
 		else
 		{
-
 			this.sliderBox.animate({top:  animatePosition +'px'}, this.animSpeed, "", $.proxy(this.afterSlide, this));
-
 		}
 
 	},
