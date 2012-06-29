@@ -25,7 +25,7 @@ mx_sliderArrow.prototype = {
 	initParams: function(options) {
 
 		this.loop = options.loop || "loop";
-		this.direction = options.direction || "horizontal";
+		this.axial = options.axial || "horizontal";
 		this.animDirection = options.animDirection || "left";
 		this.count = options.count || 1;
 		this.intervalTime = options.intervalTime || 3000;
@@ -38,7 +38,7 @@ mx_sliderArrow.prototype = {
 
 		var options = {
 
-			direction: this.direction,
+			axial: this.axial,
 			unitSize: this.unitSize,
 			sliderBox: $("#"+ this.containerId +" .slider_list"),
 			sliderContainer: $("#"+ this.containerId +" .slider_list ul"),
@@ -142,7 +142,7 @@ mx_sliderArrow.prototype = {
 	getUnitSize: function() {
 
 		var selectItem = $("#"+ this.containerId +" .slider_list ul li");
-		if(this.direction === "horizontal")
+		if(this.axial === "horizontal")
 		{
 			return selectItem.width();
 		}

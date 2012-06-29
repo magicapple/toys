@@ -39,7 +39,7 @@ mx_sliderBase.prototype = {
 
 		var options = {
 
-			direction: this.direction,
+			axial: this.axial,
 			unitSize: this.unitSize,
 			sliderBox: $("#"+ this.containerId +" .slider_list"),
 			sliderContainer: $("#"+ this.containerId +" .slider_list ul"),
@@ -55,7 +55,7 @@ mx_sliderBase.prototype = {
 
 	initParams: function(options) {
 
-		this.direction = options.direction || "horizontal";
+		this.axial = options.axial || "horizontal";
 		this.animDirection = options.animDirection || "left";
 		this.count = options.count || 1;
 		this.intervalTime = options.intervalTime || 3000;
@@ -67,7 +67,7 @@ mx_sliderBase.prototype = {
 	getUnitSize: function() {
 
 		var selectItem = $("#"+ this.containerId +" .slider_list ul li");
-		if(this.direction === "horizontal")
+		if(this.axial === "horizontal")
 		{
 			return selectItem.width();
 		}

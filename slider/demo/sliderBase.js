@@ -3,8 +3,8 @@ $(function(){
 	var animGroup = {
 		sliderLeft : new mx_sliderBase("slider_left"),
 		sliderRight : new mx_sliderBase("slider_right", {animDirection: "right"}),
-		sliderUP : new mx_sliderBase("slider_up", {direction: "vertical", animDirection: "up"}),
-		sliderDown : new mx_sliderBase("slider_down", {direction: "vertical", animDirection: "down"})
+		sliderUP : new mx_sliderBase("slider_up", {axial: "vertical", animDirection: "up"}),
+		sliderDown : new mx_sliderBase("slider_down", {axial: "vertical", animDirection: "down"})
 	};
 
 	var animHandle = function(elm){
