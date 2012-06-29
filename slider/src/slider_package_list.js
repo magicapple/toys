@@ -190,8 +190,3 @@ mx_sliderBase.prototype = {
 
 }
 
-
-
-
-
-
