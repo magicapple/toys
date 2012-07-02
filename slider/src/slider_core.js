@@ -13,6 +13,7 @@
  */
 var mx_sliderCore = function(options) {
 
+	//设置是否可以开始滑动
 	this.canAnimate = true;
 	this.init(options);
 
@@ -23,11 +24,12 @@ mx_sliderCore.prototype = {
 	init: function(options) {
 
 		this.initParams(options);
-		this.initSliderSize();
+		this.calSliderSize();
 
 	},
 
-	initSliderSize: function() {
+	//计算根据滑块单元的大小和滑块的数量，计算滑动的长度
+	calSliderSize: function() {
 
 		var styles = {"horizontal": "width", "vertical": "height"};
 		this.totalCount = this.sliderContainer.find(this.sliderItemSelect).size();
@@ -54,7 +56,8 @@ mx_sliderCore.prototype = {
 		//滑动的速度，可以设置毫秒数和("slow", "normal", or "fast")
 		this.animSpeed = options.animSpeed || "slow";
 		//滑动完成后的回调函数
-		this.animCallBack = options.animCallBack || function(){};
+		this.afterSlideCallback = options.afterSlideCallback || function(){};
+		this.beforeSlideCallback = options.beforeSlideCallback || function(){ return true; }
 
 	},
 
@@ -173,6 +176,7 @@ mx_sliderCore.prototype = {
 		var position = sliderBox.position()[direction];
 		var fixPosition = Math.round((position/this.unitSize)) * this.unitSize;
 		this.sliderBox.css(direction, fixPosition + "px");
+
 		return fixPosition;
 
 	},
@@ -194,14 +198,30 @@ mx_sliderCore.prototype = {
 
 	beforeSlide: function() {
 
-		return this.canAnimate;
+		return this.canAnimate && this.beforeSlideCallback.apply(this);
 
 	},
 
 	afterSlide: function() {
 
 		this.canAnimate = true;
-		this.animCallBack.apply(this);
+		this.afterSlideCallback.apply(this);
+
+	},
+
+	addSliderItems: function(contents, insertType) {
+
+		var oldTotalCount = this.totalCount;
+		this.sliderContainer[insertType](contents);
+		this.calSliderSize();
+		var count = this.totalCount - oldTotalCount;
+
+		if(insertType === "prepend")
+		{
+			var position = this.fixPosition();
+			var direction = ({"horizontal": "left", "vertical": "top"})[this.axial];
+			this.sliderBox.css(direction, position - this.unitSize*count);
+		}
 
 	}
 
